@@ -1,0 +1,64 @@
+<!doctype html>
+<html class="no-js" lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title></title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+		<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+		<!--<link rel="stylesheet" href="css/main.css"> -->
+	</head>
+	<body>
+		<!--[if lt IE 8]>
+			<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+		<!-- Add your site or application content here -->
+		<ul class="navList"></ul>
+		<script src="./jquery.min.js"></script>
+		<script src="./require.js"></script>
+		<script type="text/javascript">
+		var navList = Array.from(document.getElementsByClassName('navList'));
+		require(['./Toc_Chunk0.js'],function(tocChunk){
+			console.log(tocChunk);
+			// traversal
+
+			function tocGenElem(title,href){
+				var liElem = document.createElement('li');
+				var anchorElem = document.createElement('a');
+				anchorElem.setAttribute('href',href);
+				anchorElem.innerText = title;
+				liElem.appendChild(anchorElem);
+				navList.map(elem=>elem.appendChild(liElem));
+			}
+			function traverse(o,func) {
+			    for (var i in o) {
+			        func.apply(this,[i,o[i]]);  
+			        if (o[i] !== null && typeof(o[i])=="object") {
+			            //going one step down in the object tree!!
+			            traverse(o[i],func);
+			        }
+			    }
+			}
+			//called with every property and its value
+			function process(key,value) {
+			    console.log(key + " : "+value);
+			    if (value == "[object Object]"){
+			    	tocGenElem(key,key);
+			    }
+			}
+
+			//that's all... no magic, no bloated framework
+			traverse(tocChunk,process);
+
+		})
+		
+		</script>
+	</body>
+</html>
